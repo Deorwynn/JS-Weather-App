@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Weather App</title>
+    <meta name="theme-color" content="#000"> 
+
+    <!-- for Windows phone -->
+    <meta name="msapplication-navbutton-color" content="#000">
+
+    <!-- for Safari -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="#000">
+
+    <meta name="description" content="Weather Application">
+    <meta name="keywords" content="weather, application">
+    <meta name="author" content="Andrea Zavodska">
+
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,900" rel="stylesheet">
+    <link rel="shortcut icon" href="images/icons/favicon96x96.ico">
+    <link rel="stylesheet" href="./styles/style.css">
+</head>
+<body>
+
+
+    <div class="lds-default center hide"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+
+    <main>
+
+        <button id="btn-open-menu" class="ripple">
+            <img class="icon-sm-28" src="./images/icons/menu.png">
+        </button>
+        
+        <section id="current-day">
+
+            <h1 class="location-label">London</h1>
+
+            <div class="flex-container" id="temperature-summary">
+                <div>
+                    <img src="./images/summary-icons/clear-day-white.png" alt="">
+                </div>
+                <div>
+                    <h1 id="degrees-label">20&#176;</h1>
+                    <p id="summary-label">Clear Day</p>
+                </div>
+            </div>
+
+            <div class="flex-container" id="humidity-wind">
+                <div>
+                    <img class="icon-sm-30" src="./images/icons/humidity.png" alt="">
+                    <span>34%</span>
+                </div>
+                <div>
+                    <img class="icon-sm-30" src="./images/icons/wind-speed-flag.png" alt="">
+                    <span>2.27m/h</span>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="./scripts/index.js"></script>
+</body>
+</html>
