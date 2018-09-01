@@ -24,9 +24,9 @@
 <body>
 
 
-    <div class="lds-default center hide"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+    <div id="app-loader" class="lds-default center"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
 
-    <main>
+    <main hidden>
 
         <button id="btn-open-menu" class="ripple">
             <img class="icon-sm-28" src="./images/icons/menu.png">
@@ -78,7 +78,7 @@
                     </div>
                 </div>
             </div>
-            <div id="hourly-weather-wrapper" class="lower-panel-body">
+            <div id="hourly-weather-wrapper" class="lower-panel-body" visible="false">
                 <div class="flex-container weather-box">
                     <div>
                         <h1>14:00</h1>
