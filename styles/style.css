@@ -275,6 +275,7 @@ button {
   font-size: 30px; }
 
 #humidity-wind {
+  right: 0;
   bottom: 30px;
   position: absolute;
   text-align: center; }
@@ -286,3 +287,102 @@ button {
 
   #humidity-wind > div span {
     font-size: 18px; }
+
+/* ================================================================*/
+/*                       L O W E R   P A N E L
+/* ================================================================*/
+
+.lower-panel {
+  color: #fff;
+  width: 100%;
+  height: 40%;
+  position: relative; }
+
+.lower-panel-body {
+  width: 100%;
+  height: 100%;
+  padding: 50px 25px;
+  overflow-y: scroll;
+}
+
+#btn-toggle {
+  z-index: 3;
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  border-radius: 100%;
+  background-color: #353B48;
+  transform: translate(-50%, -50%);
+  box-shadow: 3px 0 14px 2px rgba(0,0,0, .4); }
+
+.weather-box {
+  position: relative;
+  margin-bottom: 15px; }
+
+  .weather-box > div:last-child {
+    text-align: right; }
+
+    .weather-box > div:last-child > div:last-child {
+      flex: .5 .5 0; }
+
+.current-day::before {
+  left: -15px;
+  content: "";
+  width: 10px;
+  height: 10px;
+  display: block;
+  position: absolute;
+  border-radius: 100%;
+  top: calc(50% -5px);
+  background-color: #353B48; }
+
+/* ================================================================*/
+/*                       D A I L Y   W E A T H E R
+/* ================================================================*/
+
+#daily-weather-wrapper {
+  background-color: rgba(0,0,0, .6);
+}
+
+/* ================================================================*/
+/*                       H O U R L Y   W E A T H E R
+/* ================================================================*/
+
+#hourly-weather-wrapper {
+  height: 40%;
+  bottom: -100%;
+  color: #353B48;
+  position: fixed;
+  transition: bottom .5s;
+  background-color: rgba(236,240,241, .6); }
+
+  #hourly-weather-wrapper > div > div:last-child {
+    color: #636E72; }
+
+/* ================================================================*/
+/*                             M E N U
+/* ================================================================*/
+
+#menu-container {
+  top: 0;
+  right: 0;
+  z-index: 4;
+  width: 65%;
+  height: 100%;
+  color: #fff;
+  position: fixed;
+  transition: right .5s; }
+
+  #btn-close-menu {
+    right: 0;
+    color: #fff;
+    padding: 10px;
+    font-size: 25px;
+    position: absolute; }
+
+  #menu-container > div {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(53,59,72, .9); }
+
+  
