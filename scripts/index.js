@@ -58,7 +58,10 @@ const UI = (function() {
             dailyWeatherModel,
             day,
             maxMinTemp,
-            dailyIcon;
+            dailyIcon,
+            hourlyWeatherWrapper = document.querySelector('#hourly-weather-wrapper'),
+            hourlyWeatherModel,
+            hourlyIcon;
 
         // set current weather/location
 
@@ -84,6 +87,50 @@ const UI = (function() {
         // set wind speed
         document.querySelector('#wind-speed-label').innerHTML = Math.round(currentlyData.windSpeed * 1.6093).toFixed(1) + 'kph';
 
+        // set daily weather
+        while(dailyWeatherWrapper.children[1]) {
+            dailyWeatherWrapper.removeChild(dailyWeatherWrapper.children[1]);
+        }
+
+        for(let i = 0; i<7; i++) {
+            // clone the node and remove the 'hide' class
+            dailyWeatherModel = dailyWeatherWrapper.children[0].cloneNode(true);
+            dailyWeatherModel.classList.remove('hide');
+            // set the day
+            day = weekDays[new Date(dailyData[i].time * 1000).getDay()];
+            dailyWeatherModel.children[0].children[0].innerHTML = day;
+            // set minMax temperature for the upcoming days
+            maxMinTemp = Math.round((dailyData[i].temperatureMax - 32) * 5 / 9) + '&#176;' + '/' + Math.round((dailyData[i].temperatureMin - 32) * 5 / 9) + '&#176;';
+            dailyWeatherModel.children[1].children[0].innerHTML = maxMinTemp;
+            // set daily icon
+            dailyIcon = dailyData[i].icon;
+            dailyWeatherModel.children[1].children[1].children[0].setAttribute('src', `./images/summary-icons/${dailyIcon}-white.png`);
+            // append the model
+            dailyWeatherWrapper.appendChild(dailyWeatherModel);
+        }
+
+        dailyWeatherWrapper.children[1].classList.add(`current-day-of-the-week`);
+
+        // set hourly weather
+        while(hourlyWeatherWrapper.children[1]) {
+            hourlyWeatherWrapper.removeChild(hourlyWeatherWrapper.children[1]);
+        }
+
+        for(let i = 0; i <= 24; i++) {
+            // clone the node and remove 'hide' class
+            hourlyWeatherModel = hourlyWeatherWrapper.children[0].cloneNode(true);
+            hourlyWeatherModel.classList.remove('hide');
+            // set hour
+            hourlyWeatherModel.children[0].children[0].innerHTML = new Date(hourlyData[i].time * 1000).getHours() + ":00";
+            // set temperature
+            hourlyWeatherModel.children[1].children[0].innerHTML = Math.round((hourlyData[i].temperature - 32) * 5 / 9) + '&#176;';
+            // set the icon
+            hourlyIcon = hourlyData[i].icon;
+            hourlyWeatherModel.children[1].children[1].children[0].setAttribute('src', `./images/summary-icons/${hourlyIcon}-grey.png`);
+            // append model
+            hourlyWeatherWrapper.appendChild(hourlyWeatherModel);
+        }
+
         UI.showApp();
     }
 
@@ -103,6 +150,41 @@ const UI = (function() {
 })();
 
 /* ================================================================*/
+/*                    L O C A L   S T O R A G E
+/* ================================================================*/
+
+const LOCALSTORAGE = (function() {
+    let savedCities = [];
+    const save = (city) => {
+        savedCities.push(city);
+        localStorage.setItem('savedCities', JSON.stringify(savedCities));
+    };
+
+    const get = () => {
+        if(localStorage.getItem('savedCities') != null) {
+            savedCities = JSON.parse(localStorage.getItem('savedCities'));
+        }
+    }
+
+    const remove = (index) => {
+        if(index < savedCities.length) {
+            savedCities.splice(index, 1);
+            savedCities = JSON.parse(localStorage.getItem('savedCities'));
+        }
+    }
+
+    const getSavedCities = () => savedCities;
+
+    return {
+        save,
+        get,
+        remove,
+        getSavedCities
+    }
+
+})();
+
+/* ================================================================*/
 /*                     G E T   L O C A T I O N
 /* ================================================================*/
 
@@ -117,7 +199,7 @@ const getLocation = (function() {
         addCityBtn.setAttribute('disabled', true);
         addCityBtn.classList.add('disabled');
 
-        WEATHER.getWeather(location);
+        WEATHER.getWeather(location, true);
     }
 
     locationInput.addEventListener('input', function() {
@@ -163,12 +245,22 @@ const WEATHER = (function() {
             })
     }
 
-    const getWeather = (location) => {
+    const getWeather = (location, save) => {
         UI.loadApp();
         let geocodeURL = _getGeoCodeURL(location);
 
         axios.get(geocodeURL)
              .then( (res) => {
+                 if(res.data.results.length == 0) {
+                     console.error('Invalid location');
+                     UI.showApp();
+                     return;
+                 }
+
+                 if(save) {
+                     LOCALSTORAGE.save(location);
+                 }
+
                 let lat = res.data.results[0].geometry.lat,
                     lng = res.data.results[0].geometry.lng;
                 let darkSkyURL = _getDarkSkyURL(lat, lng);
@@ -190,5 +282,11 @@ const WEATHER = (function() {
 /* ================================================================*/
 
 window.onload = function() {
-    UI.showApp();
+    LOCALSTORAGE.get();
+    let cities = LOCALSTORAGE.getSavedCities();
+    if(cities.length != 0) {
+        WEATHER.getWeather(cities[cities.length - 1], false)
+    }
+    else UI.showApp();
+
 }
