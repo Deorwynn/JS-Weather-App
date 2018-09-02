@@ -34,26 +34,26 @@
         
         <section id="current-day">
 
-            <h1 class="location-label">London</h1>
+            <h1 class="location-label"></h1>
 
             <div class="flex-container" id="temperature-summary">
                 <div>
-                    <img src="./images/summary-icons/clear-day-white.png" alt="">
+                    <img src="./images/summary-icons/clear-day-white.png" alt="Summary Icon" id="currentlyIcon">
                 </div>
                 <div>
-                    <h1 id="degrees-label">20&#176;</h1>
-                    <p id="summary-label">Clear Day</p>
+                    <h1 id="degrees-label"></h1>
+                    <p id="summary-label"></p>
                 </div>
             </div>
 
             <div class="flex-container" id="humidity-wind">
                 <div>
-                    <img class="icon-sm-30" src="./images/icons/humidity.png" alt="">
-                    <span>34%</span>
+                    <img class="icon-sm-30" src="./images/icons/humidity.png" alt="humidity">
+                    <span id="humidity-label"></span>
                 </div>
                 <div>
-                    <img class="icon-sm-30" src="./images/icons/wind-speed-flag.png" alt="">
-                    <span>2.27m/h</span>
+                    <img class="icon-sm-30" src="./images/icons/wind-speed-flag.png" alt="wind speed">
+                    <span id="wind-speed-label"></span>
                 </div>
             </div>
 
@@ -64,8 +64,8 @@
                 <img src="./images/icons/up-arrow.png" alt="">
             </button>
             <div id="daily-weather-wrapper" class="lower-panel-body">
-                <div class="flex-container weather-box">
-                    <div class="flex-container">
+                <div class="flex-container weather-box hide">
+                    <div>
                         <h1>Sunday</h1>
                     </div>
                     <div class="flex-container">
@@ -106,14 +106,14 @@
                     <input type="text" placeholder="Location" id="location-input">
                     <br>
                     <button class="ripple disabled" id="btn-add-city" disabled>Add City</button>
-                    <h1>Manchester</h1>
+                    <h1 class="location-label"></h1>
                 </div>
 
                 <!-- add location -->
                 <div id="saved-cities-wrapper">
                     <div class="flex-container saved-city-box">
                         <div class="ripple">
-                            <h1>Manchester</h1>
+                            <h1></h1>
                         </div>
                         <div>
                             <button class="ripple remove-saved-city">-</button>
@@ -126,6 +126,7 @@
 
     </main>
 
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="./scripts/index.js"></script>
 </body>
 </html>

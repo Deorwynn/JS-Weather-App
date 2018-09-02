@@ -188,7 +188,7 @@ table {
   transform: translateY(-50%); }
 
 .hide {
-  display: none; }
+  display: none !important; }
 
 .icon-sm-25 {
   width: 25px; }
