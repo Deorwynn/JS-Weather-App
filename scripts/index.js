@@ -169,7 +169,7 @@ const LOCALSTORAGE = (function() {
     const remove = (index) => {
         if(index < savedCities.length) {
             savedCities.splice(index, 1);
-            savedCities = JSON.parse(localStorage.getItem('savedCities'));
+            localStorage.setItem('savedCities', JSON.stringify(savedCities));
         }
     }
 
@@ -180,6 +180,71 @@ const LOCALSTORAGE = (function() {
         get,
         remove,
         getSavedCities
+    }
+
+})();
+
+/* ================================================================*/
+/*                     S A V E D   C I T I E S
+/* ================================================================*/
+
+const SAVEDCITIES = (function() {
+
+    let container = document.querySelector('#saved-cities-wrapper');
+
+    const drawCity = (city) => {
+        let cityBox = document.createElement('div'),
+            cityWrapper = document.createElement('div'),
+            deleteWrapper = document.createElement('div'),
+            cityTextNode = document.createElement('h1'),
+            deleteBtn = document.createElement('button');
+
+        cityBox.classList.add('saved-city-box', 'flex-container');
+        cityTextNode.innerHTML = city;
+        cityTextNode.classList.add('set-city');
+        cityWrapper.classList.add('ripple', 'set-city');
+        cityWrapper.append(cityTextNode);
+        cityBox.append(cityWrapper);
+
+        deleteBtn.classList.add('ripple', 'remove-saved-city');
+        deleteBtn.innerHTML= '-';
+        deleteWrapper.append(deleteBtn);
+        cityBox.append(deleteWrapper);
+
+        container.append(cityBox);
+
+        const _deleteCity = cityHTMLBtn => {
+            let nodes = Array.prototype.slice.call(container.children),
+                cityWrapper = cityHTMLBtn.closest('.saved-city-box'),
+                cityIndex = nodes.indexOf(cityWrapper);
+            console.log(cityIndex);
+            LOCALSTORAGE.remove(cityIndex);
+            cityWrapper.remove();
+        } 
+
+        document.addEventListener('click', function(event) {
+        if(event.target.classList.contains('remove-saved-city')) {
+            _deleteCity(event.target);
+        }
+    })
+
+    document.addEventListener('click', function(event) {
+        if(event.target.classList.contains('set-city')) {
+            let nodes = Array.prototype.slice.call(container.children),
+                cityWrapper = event.target.closest('.saved-city-box'),
+                cityIndex = nodes.indexOf(cityWrapper),
+                savedCities = LOCALSTORAGE.getSavedCities();
+
+            WEATHER.getWeather(savedCities[cityIndex], false);
+        }
+    })
+
+    }
+
+    
+
+    return {
+        drawCity
     }
 
 })();
@@ -259,6 +324,7 @@ const WEATHER = (function() {
 
                  if(save) {
                      LOCALSTORAGE.save(location);
+                     SAVEDCITIES.drawCity(location);
                  }
 
                 let lat = res.data.results[0].geometry.lat,
@@ -285,7 +351,8 @@ window.onload = function() {
     LOCALSTORAGE.get();
     let cities = LOCALSTORAGE.getSavedCities();
     if(cities.length != 0) {
-        WEATHER.getWeather(cities[cities.length - 1], false)
+        cities.forEach((city) => SAVEDCITIES.drawCity(city));
+        WEATHER.getWeather(cities[cities.length - 1], false);
     }
     else UI.showApp();
 
