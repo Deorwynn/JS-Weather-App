@@ -1,5 +1,5 @@
-@media only screen and (min-width: 800px) {
+@media only screen and (min-width: 550px) {
     #current-day {
-        padding: 80px 60px 40px 60px;
+        padding: 80px 60px 40px 100px;
     }
 }
