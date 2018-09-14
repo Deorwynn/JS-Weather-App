@@ -1,5 +1,13 @@
-@media only screen and (min-width: 550px) {
+@media only screen and (min-width: 800px) {
+
+    body {
+        width: 70%; }
+
     #current-day {
-        padding: 80px 60px 40px 100px;
+        padding: 80px 60px 40px 100px; }
+
+    .weather-box > div:first-child {
+        padding-left: 50px;
     }
+
 }
